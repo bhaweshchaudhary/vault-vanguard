@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from '@mui/material'
 
 export default function App() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -11,7 +12,7 @@ export default function App() {
       const formData = new FormData();
       formData.append('file', selectedFile);
   
-      fetch('http://your-django-server/api/encrypt-file', {
+      fetch('https://127.0.0.1:8000/encrypt', {
         method: 'POST',
         body: formData,
       })
@@ -59,6 +60,10 @@ export default function App() {
       </label>
       <input id="browse-file" type="file" className='hidden' onChange={handleFileChange} />
 
+    </div>
+
+    <div className='flex justify-center mt-5'>
+        <Button variant='contained' type="submit" onClick={handleFileUpload}>Encrypt & Upload</Button>
     </div>
 
   </>
