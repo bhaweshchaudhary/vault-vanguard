@@ -2,28 +2,22 @@ import React, { useState } from 'react'
 import { Button } from '@mui/material'
 
 export default function App() {
-    const [selectedFile, setSelectedFile] = useState(null);
-  
-    const handleFileChange = (event) => {
-      setSelectedFile(event.target.files[0]);
-    };
 
-    const handleFileUpload = () => {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
+  const handleFileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
   
-      fetch('https://127.0.0.1:8000/encrypt', {
-        method: 'POST',
-        body: formData,
+    fetch('http://127.0.0.1:8000/upload/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the Django server
+        console.log('Response from Django:', data);
       })
-        .then(response => response.text())
-        .then(encryptedContent => {
-          // Display the encrypted content in your React app
-          console.log('Encrypted Content:', encryptedContent);
-        })
-        .catch(error => console.error('Error:', error));
-    };
-
+      .catch(error => console.error('Error:', error));
+  };
 
   return (
   <>
@@ -38,7 +32,7 @@ export default function App() {
               <path strokeLinecap="round" strokeLineJoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
           </label>
-          <input id="file-upload" type="file" className='hidden' onChange={handleFileChange} />
+          <input id="file-upload" type="file" className='hidden' />
         </div>
 
         <div>
@@ -58,7 +52,7 @@ export default function App() {
       <label className='flex justify-center  mx-auto mt-10 p-3 bg-[#dbe3e7] w-40 rounded-md cursor-pointer text-[#32414B] font-semibold text-xl' htmlFor="browse-file">
         Browse Files
       </label>
-      <input id="browse-file" type="file" className='hidden' onChange={handleFileChange} />
+      <input id="browse-file" type="file" className='hidden' />
 
     </div>
 
